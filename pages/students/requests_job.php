@@ -33,7 +33,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])
 $applications_query = "
     SELECT job_applications.*, jobs.job_title, companies.Name AS company_name
     FROM job_applications
-    JOIN jobs ON job_applications.id = jobs.id
+    JOIN jobs ON job_applications.job_id = jobs.id
     JOIN companies ON jobs.company_id = companies.id
     WHERE job_applications.student_id = ?
 ";

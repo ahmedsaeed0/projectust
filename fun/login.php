@@ -5,8 +5,8 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
      echo $accountType = $_POST['accountType'];
-    $username = $_POST['UserName'];
-    $password = $_POST['pass'];
+     echo $username = $_POST['UserName'];
+     echo $password = $_POST['pass'];
 
 }
    

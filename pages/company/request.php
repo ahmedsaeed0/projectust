@@ -8,7 +8,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['account_type'] !== 'company') {
     exit();
 }
 
+
 $company_id = $_SESSION['user_id'];
+// echo $company_id;
 $success_message = "";
 
 // تحديث حالة الطلب
@@ -36,6 +38,7 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $stmt->bind_param("i", $application_id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_assoc();
+        // echo $result;
         $stmt->close();
 
         if ($result['status'] == 0) { // فقط إذا كانت معلقة
@@ -57,7 +60,7 @@ $applications_query = "
            students.email AS applicant_email, students.phone AS applicant_phone,
            students.uploaded_file AS applicant_cv
     FROM job_applications
-    JOIN jobs ON job_applications.id = jobs.id
+    JOIN jobs ON job_applications.job_id = jobs.id
     JOIN students ON job_applications.student_id = students.id
     WHERE jobs.company_id = ?
 ";
@@ -65,7 +68,9 @@ $stmt = $conn->prepare($applications_query);
 $stmt->bind_param("i", $company_id);
 $stmt->execute();
 $applications = $stmt->get_result();
+// print_r($applications);
 $stmt->close();
+// echo $application['applicant_name'];
 ?>
 
 <!DOCTYPE html>
@@ -155,11 +160,11 @@ $stmt->close();
                 <td><?php echo htmlspecialchars($application['job_title']); ?></td>
                 <td>
                     <?php 
-                    if ($application['status'] == 0) {
+                    if ($application['status'] == '0') {
                         echo "معلقة";
-                    } elseif ($application['status'] == 1) {
+                    } elseif ($application['status'] == '1') {
                         echo "مقبولة";
-                    } elseif ($application['status'] == 2) {
+                    } elseif ($application['status'] == '2') {
                         echo "مرفوضة";
                     }
                     ?>
