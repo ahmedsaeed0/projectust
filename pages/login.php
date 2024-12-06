@@ -98,6 +98,7 @@
                     <option value="" disabled selected>Select Account Type</option>
                     <option value="company">Company</option>
                     <option value="student">Student</option>
+                    <option value="admin">Admin</option>
                   </select>
                 </div>
                 <!-- Username -->

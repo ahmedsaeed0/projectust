@@ -71,15 +71,17 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
           </li>
           <li class="nav-item"><a href="tel.php" class="nav-link">Contact</a></li>
           <?php if ($logged_in): ?>
-            <?php if ($account_type === 'student'): ?>
-              <li class="nav-item"><a href="pages/student/student_profile.php" class="nav-link"> profile</a></li>
-            <?php elseif ($account_type === 'company'): ?>
-              <li class="nav-item"><a href="pages/company/main-company.php" class="nav-link">control</a></li>
-            <?php endif; ?>
-            <li class="nav-item"><a href="pages/logout.php" class="nav-link">Logout</a></li>
-          <?php else: ?>
-            <li class="nav-item"><a href="pages/login.php" class="nav-link">Login</a></li>
-          <?php endif; ?>
+    <?php if ($account_type === 'student'): ?>
+        <li class="nav-item"><a href="pages/students/student_profile.php" class="nav-link">Profile</a></li>
+    <?php elseif ($account_type === 'company'): ?>
+        <li class="nav-item"><a href="pages/company/profail.php" class="nav-link">Control</a></li>
+    <?php elseif ($account_type === 'admin'): ?>
+        <li class="nav-item"><a href="admins/admin_dashboard.php" class="nav-link">Admin Panel</a></li>
+    <?php endif; ?>
+    <li class="nav-item"><a href="pages/logout.php" class="nav-link">Logout</a></li>
+<?php else: ?>
+    <li class="nav-item"><a href="pages/login.php" class="nav-link">Login</a></li>
+<?php endif; ?>
         </ul>
       </div>
     </div>

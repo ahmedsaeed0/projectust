@@ -11,6 +11,15 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
   $user_id = $_SESSION['user_id'];
 
 } 
+$specializations = [];
+$query = "SELECT * FROM specializations";
+$result = $conn->query($query);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $specializations[] = $row;
+    }
+}
 ?>
 
 
@@ -58,15 +67,23 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     }
 
     .card {
-      border: none;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease;
-    }
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
-    .card:hover {
-      transform: scale(1.05);
-    }
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
 
+.card-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.btn-outline-primary {
+  border-radius: 20px;
+  font-weight: 500;
+}
     footer {
       background-color: rgb(11, 11, 11);
       color: white;
@@ -109,63 +126,22 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
 
     <!-- Cards Section -->
     <div class="container my-5">
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="card">
-            <img src="img/computer.png" class="card-img-top" alt="Computer">
-            <div class="card-body text-center">
-              <h5 class="card-title">حاسوب</h5>
-              <a href="tsnif.html" class="btn btn-primary">عرض</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <img src="img/dectot.jpg" class="card-img-top" alt="Medicine">
-            <div class="card-body text-center">
-              <h5 class="card-title">طب</h5>
-              <a href="tsnif.html" class="btn btn-primary">عرض</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <img src="img/transleat.jpg" class="card-img-top" alt="Translation">
-            <div class="card-body text-center">
-              <h5 class="card-title">ترجمة</h5>
-              <a href="tsnif.html" class="btn btn-primary">عرض</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <img src="img/picter.png" class="card-img-top" alt="Engineering">
-            <div class="card-body text-center">
-              <h5 class="card-title">هندسة</h5>
-              <a href="tsnif.html" class="btn btn-primary">عرض</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <img src="img/picter.png" class="card-img-top" alt="Photography">
-            <div class="card-body text-center">
-              <h5 class="card-title">تصوير</h5>
-              <a href="tsnif.html" class="btn btn-primary">عرض</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="card">
-            <img src="img/محامي.png" class="card-img-top" alt="Law">
-            <div class="card-body text-center">
-              <h5 class="card-title">قانون</h5>
-              <a href="tsnif.html" class="btn btn-primary">عرض</a>
-            </div>
+  <h2 class="text-center mb-4">التصنيفات</h2>
+  <div class="row g-3 justify-content-center">
+    <?php foreach ($specializations as $category): ?>
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="card text-center shadow-sm border-0">
+          <div class="card-body">
+            <h5 class="card-title text-primary mb-3">
+              <?php echo htmlspecialchars($category['specialization_name']); ?>
+            </h5>
+            <a href="pages/category.php?id=<?php echo $category['id']; ?>" class="btn btn-outline-primary btn-sm">عرض</a>
           </div>
         </div>
       </div>
-    </div>
+    <?php endforeach; ?>
+  </div>
+</div>
 
     <!-- Footer -->
     <footer class="text-center">

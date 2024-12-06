@@ -123,8 +123,10 @@ $total_users = $total_students + $total_companies;
                 <div class="username">مرحباً، <?php echo $username; ?></div>
                 <a href="admin_dashboard.php">الصفحة الرئيسية</a>
                 <a href="admin_user.php">إدارة المستخدمين</a>
-                <a href="#">إدارة الطلبات</a>
+                <a href="manage_requests.php">إدارة الطلبات</a>
                 <a href="#">إعدادات</a>
+                <a href="../index.php">العودة</a>
+
                 <!-- زر تسجيل الخروج -->
                 <a href="?logout=true" class="logout-btn">تسجيل الخروج</a>
             </div>

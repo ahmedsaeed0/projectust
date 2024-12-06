@@ -4,22 +4,25 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $accountType = $_POST['accountType'];
+     echo $accountType = $_POST['accountType'];
     $username = $_POST['UserName'];
     $password = $_POST['pass'];
 
-
+}
    
 
     if ($accountType === 'company') {
         $sql = "SELECT * FROM companies WHERE username = ? AND password = ?";
     } elseif ($accountType === 'student') {
         $sql = "SELECT * FROM students WHERE username = ? AND password = ?";
+    } elseif ($accountType === 'admin') {
+        $sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
     } else {
         $error = "Invalid account type.";
         $conn->close();
         goto showError;
     }
+    
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $username, $password);
@@ -28,21 +31,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
-
+        
         $_SESSION['logged_in'] = true;
         $_SESSION['account_type'] = $accountType;
         $_SESSION['username'] = $user['username'];
         $_SESSION['user_id'] = $user['id']; 
 
         if ($accountType === 'company') {
-            header('Location: ../index.php');
+            header('Location: ../index.php') ;
         } elseif ($accountType === 'student') {
-            header('Location: ../index.php');
+            header('Location: ../index.php') ;
+        } elseif ($accountType === 'admin') {
+            $_SESSION['admin_logged_in'] = true;
+            $_SESSION['admin_username'] = $username;
+            $_SESSION['admin_id'] = $user['id']; 
+            header('Location: ../admins/admin_dashboard.php'); // توجيه الادمن إلى صفحة الادمن
+        } else {
+            $error = "Invalid account type.";
+            header('Location: ../login.php'); // توجيه المستخدم إلى صفحة تسجيل الدخول عند وجود خطأ
         }
         exit();
-    } else {
-        $error = "Invalid username or password.";
-    }
+        
 
     $stmt->close();
     $conn->close();
