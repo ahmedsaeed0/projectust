@@ -32,6 +32,15 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     .navbar {
       background-color: #fff;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: fixed; /* تثبيت النافبار */
+      top: 0;
+      left: 0;
+      width: 100%; /* جعلها تمتد على عرض الشاشة بالكامل */
+      z-index: 1000; /* ضمان ظهورها فوق باقي العناصر */
+    }
+
+    body {
+      padding-top: 80px; /* إزاحة المحتوى للأسفل بسبب النافبار الثابت */
     }
 
     .nav-link {
@@ -60,28 +69,22 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a href="index.php" class="nav-link">Home</a></li>
-          <li class="nav-item"><a href="pages/about.html" class="nav-link">About</a></li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Jobs</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="pages/tsnif.html">Job List</a></li>
-              <li><a class="dropdown-item" href="pages/">Job Detail</a></li>
-            </ul>
-          </li>
-          <li class="nav-item"><a href="tel.php" class="nav-link">Contact</a></li>
+          <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+          <li class="nav-item "><a class="nav-link " href="#job" >Jobs</a></li>
+          <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
           <?php if ($logged_in): ?>
-    <?php if ($account_type === 'student'): ?>
-        <li class="nav-item"><a href="pages/students/student_profile.php" class="nav-link">Profile</a></li>
-    <?php elseif ($account_type === 'company'): ?>
-        <li class="nav-item"><a href="pages/company/profail.php" class="nav-link">Control</a></li>
-    <?php elseif ($account_type === 'admin'): ?>
-        <li class="nav-item"><a href="admins/admin_dashboard.php" class="nav-link">Admin Panel</a></li>
-    <?php endif; ?>
-    <li class="nav-item"><a href="pages/logout.php" class="nav-link">Logout</a></li>
-<?php else: ?>
-    <li class="nav-item"><a href="pages/login.php" class="nav-link">Login</a></li>
-<?php endif; ?>
+            <?php if ($account_type === 'student'): ?>
+              <li class="nav-item"><a href="pages/students/student_profile.php" class="nav-link">Profile</a></li>
+            <?php elseif ($account_type === 'company'): ?>
+              <li class="nav-item"><a href="pages/company/profail.php" class="nav-link">Control</a></li>
+            <?php elseif ($account_type === 'admin'): ?>
+              <li class="nav-item"><a href="admins/admin_dashboard.php" class="nav-link">Admin Panel</a></li>
+            <?php endif; ?>
+            <li class="nav-item"><a href="pages/logout.php" class="nav-link">Logout</a></li>
+          <?php else: ?>
+            <li class="nav-item"><a href="pages/login.php" class="nav-link">Login</a></li>
+          <?php endif; ?>
         </ul>
       </div>
     </div>

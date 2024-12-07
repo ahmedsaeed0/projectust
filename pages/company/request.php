@@ -38,7 +38,6 @@ if (isset($_GET['action']) && isset($_GET['id'])) {
         $stmt->bind_param("i", $application_id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_assoc();
-        // echo $result;
         $stmt->close();
 
         if ($result['status'] == 0) { // فقط إذا كانت معلقة
@@ -170,7 +169,7 @@ $stmt->close();
                     ?>
                 </td>
                 <td>
-                    <?php if ($application['status'] == 0): ?>
+                    <?php if ($application['status'] == '0'): ?>
                         <a href="?action=accept&id=<?php echo $application['id']; ?>" class="btn btn-sm btn-success">قبول</a>
                         <a href="?action=reject&id=<?php echo $application['id']; ?>" class="btn btn-sm btn-danger">رفض</a>
                     <?php endif; ?>

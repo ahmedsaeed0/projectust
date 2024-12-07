@@ -88,7 +88,7 @@
 
     /* Loader Styles */
     .loader {
-    position: fixed;
+    /* position: flex !important; */
     top: 0;
     left: 0;
     width: 100%;
@@ -241,8 +241,8 @@
     if (loader) {
         loader.style.display = 'flex'; 
         setTimeout(() => {
-            loader.style.display = 'none';
-        }, 10000);
+            loader.style.display = 'flex';
+        }, 1000);
     }
     return true;
 }

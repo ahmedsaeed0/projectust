@@ -26,9 +26,35 @@ $companies_query = "SELECT COUNT(*) as total_companies FROM companies";
 $result_companies = $conn->query($companies_query);
 $total_companies = $result_companies->fetch_assoc()['total_companies'];
 
-// حساب العدد الكلي
+// جلب عدد الوظائف
+$jobs_query = "SELECT COUNT(*) as total_jobs FROM jobs";
+$result_jobs = $conn->query($jobs_query);
+$total_jobs = $result_jobs->fetch_assoc()['total_jobs'];
+
+// جلب عدد الإعلانات
+$ads_query = "SELECT COUNT(*) as total_ads FROM ads";
+$result_ads = $conn->query($ads_query);
+$total_ads = $result_ads->fetch_assoc()['total_ads'];
+
+// جلب عدد الطلبات المعلقة
+$pending_requests_query = "SELECT COUNT(*) as pending_requests FROM job_applications WHERE status = 0";
+$result_pending_requests = $conn->query($pending_requests_query);
+$pending_requests = $result_pending_requests->fetch_assoc()['pending_requests'];
+
+// جلب عدد الطلبات المقبولة
+$approved_requests_query = "SELECT COUNT(*) as approved_requests FROM job_applications WHERE status = 1";
+$result_approved_requests = $conn->query($approved_requests_query);
+$approved_requests = $result_approved_requests->fetch_assoc()['approved_requests'];
+
+// جلب عدد الطلبات المرفوضة
+$rejected_requests_query = "SELECT COUNT(*) as rejected_requests FROM job_applications WHERE status = 2";
+$result_rejected_requests = $conn->query($rejected_requests_query);
+$rejected_requests = $result_rejected_requests->fetch_assoc()['rejected_requests'];
+
+// حساب العدد الكلي للمستخدمين
 $total_users = $total_students + $total_companies;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -98,9 +124,11 @@ $total_users = $total_students + $total_companies;
             flex-direction: column;
             justify-content: center;
         }
-        p{
-            margin:2px;
+
+        p {
+            margin: 2px;
         }
+
         .card:hover {
             transform: scale(1.05);
         }
@@ -124,9 +152,7 @@ $total_users = $total_students + $total_companies;
                 <a href="admin_dashboard.php">الصفحة الرئيسية</a>
                 <a href="admin_user.php">إدارة المستخدمين</a>
                 <a href="manage_requests.php">إدارة الطلبات</a>
-                <a href="#">إعدادات</a>
                 <a href="../index.php">العودة</a>
-
                 <!-- زر تسجيل الخروج -->
                 <a href="?logout=true" class="logout-btn">تسجيل الخروج</a>
             </div>
@@ -139,9 +165,10 @@ $total_users = $total_students + $total_companies;
                     <div class="col-md-4">
                         <div class="card bg-primary text-white">
                             <div class="card-body text-center">
-                                <h5 class="card-title">طلبات اليوم</h5>
-                                <p class="card-text">عدد الطلبات: <strong>10</strong></p>
-                                <a href="#" class="text-white">عرض التفاصيل</a>
+                                <h5 class="card-title">الوظائف والإعلانات</h5>
+                                <p class="card-text">عدد الوظائف: <strong><?php echo $total_jobs; ?></strong></p>
+                                <p class="card-text">عدد الإعلانات: <strong><?php echo $total_ads; ?></strong></p>
+                                <a href="manage_requests.php" class="text-white">عرض التفاصيل</a>
                             </div>
                         </div>
                     </div>
@@ -150,9 +177,9 @@ $total_users = $total_students + $total_companies;
                         <div class="card bg-success text-white">
                             <div class="card-body text-center">
                                 <h5 class="card-title">المستخدمين</h5>
-                                <p class="-">عدد المستخدمين: <strong><?php echo $total_users; ?></strong></p>
-                                <p class="-">عدد الطلاب: <strong><?php echo $total_students; ?></strong></p>
-                                <p class="">عدد الشركات: <strong><?php echo $total_companies; ?></strong></p>
+                                <p>عدد المستخدمين: <strong><?php echo $total_users; ?></strong></p>
+                                <p>عدد الطلاب: <strong><?php echo $total_students; ?></strong></p>
+                                <p>عدد الشركات: <strong><?php echo $total_companies; ?></strong></p>
                                 <a href="admin_user.php" class="text-white">عرض التفاصيل</a>
                             </div>
                         </div>
@@ -161,9 +188,11 @@ $total_users = $total_students + $total_companies;
                     <div class="col-md-4">
                         <div class="card bg-danger text-white">
                             <div class="card-body text-center">
-                                <h5 class="card-title">الطلبات المعلقة</h5>
-                                <p class="card-text">عدد الطلبات: <strong>3</strong></p>
-                                <a href="#" class="text-white">عرض التفاصيل</a>
+                                <h5 class="card-title">الطلبات</h5>
+                                <p class="card-text">الطلبات المعلقة: <strong><?php echo $pending_requests; ?></strong></p>
+                                <p class="card-text">الطلبات المقبولة: <strong><?php echo $approved_requests; ?></strong></p>
+                                <p class="card-text">الطلبات المرفوضة: <strong><?php echo $rejected_requests; ?></strong></p>
+                                <a href="manage_requests.php" class="text-white">عرض التفاصيل</a>
                             </div>
                         </div>
                     </div>

@@ -257,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_company'])) {
                 <a href="admin_dashboard.php">الصفحة الرئيسية</a>
                 <a href="admin_user.php">إدارة المستخدمين</a>
                 <a href="manage_requests.php">إدارة الطلبات</a>
-                <a href="#">إعدادات</a>
+                <!-- <a href="#">إعدادات</a> -->
                 <a href="../index.php">العودة</a>
 
                 <!-- زر تسجيل الخروج -->

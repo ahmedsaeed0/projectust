@@ -66,14 +66,22 @@ while ($row = $jobs_result->fetch_assoc()) {
     $jobs[] = $row;
 }
 $applications_query = "
-    SELECT job_applications.*, 
-           students.full_name AS student_name, 
-           jobs.job_title AS job_title 
+    SELECT 
+        job_applications.id AS application_id, 
+        job_applications.status AS application_status, 
+        students.full_name AS student_name, 
+        jobs.job_title AS job_title, 
+        jobs.salary AS job_salary,
+        ads.id AS ad_id, 
+        ads.ad_date AS ad_date
     FROM job_applications
     JOIN students ON job_applications.student_id = students.id
-    JOIN jobs ON job_applications.ad_id = jobs.id
+    JOIN ads ON job_applications.ad_id = ads.id
+    JOIN jobs ON ads.job_id = jobs.id
 ";
+
 $applications_result = $conn->query($applications_query);
+
 $applications = [];
 while ($row = $applications_result->fetch_assoc()) {
     $applications[] = $row;
@@ -199,7 +207,7 @@ while ($row = $applications_result->fetch_assoc()) {
                 <a href="admin_dashboard.php">الصفحة الرئيسية</a>
                 <a href="admin_user.php">إدارة المستخدمين</a>
                 <a href="manage_requests.php">إدارة الطلبات</a>
-                <a href="#">إعدادات</a>
+                <!-- <a href="#">إعدادات</a> -->
                 <a href="../index.php">العودة</a>
 
                 <!-- زر تسجيل الخروج -->
@@ -281,40 +289,48 @@ while ($row = $applications_result->fetch_assoc()) {
                         </table>
                         
                         <!-- قائمة طلبات التقديم -->
-                        <h3>طلبات التقديم</h3>
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>اسم الطالب</th>
-                                    <th>عنوان الوظيفة</th>
-                                    <th>حالة الطلب</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($applications as $application): ?>
-                                    <tr>
-                                        <td><?php echo $application['id']; ?></td>
-                                        <td><?php echo htmlspecialchars($application['student_name']); ?></td>
-                                        <td><?php echo htmlspecialchars($application['job_title']); ?></td>
-                                        <td>
-                                        <?php 
-                                            if ($application['status'] == 0) {
-                                                echo "معلقة";
-                                            } elseif ($application['status'] == 1) {
-                                                echo "مقبولة";
-                                            } elseif ($application['status'] == 2) {
-                                                echo "مرفوضة";
-                                            } else {
-                                                echo "غير معروف"; // في حال كانت القيمة غير متوقعة
-                                            }
-                                        ?>
-                                        </td>
-
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
+                        <h3 class="text-center mb-4">طلبات التقديم</h3>
+    <table class="table table-striped table-hover table-bordered text-center">
+        <thead class="table-primary">
+            <tr>
+                <th>#</th>
+                <th>اسم الطالب</th>
+                <th>عنوان الوظيفة</th>
+                <th>حالة الطلب</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($applications)): ?>
+                <?php foreach ($applications as $application): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($application['application_id']); ?></td>
+                        <td><?php echo htmlspecialchars($application['student_name']); ?></td>
+                        <td><?php echo htmlspecialchars($application['job_title']); ?></td>
+                        <td>
+                            <?php 
+                            // echo '<pre>';
+                            // print_r($applications);
+                            // echo '</pre>';
+                                if ($application['application_status'] == 0) {
+                                    echo '<span class="badge bg-warning text-dark">معلقة</span>';
+                                } elseif ($application['application_status'] == 1) {
+                                    echo '<span class="badge bg-success">مقبولة</span>';
+                                } elseif ($application['application_status'] == 2) {
+                                    echo '<span class="badge bg-danger">مرفوضة</span>';
+                                } else {
+                                    echo '<span class="badge bg-secondary">غير معروف</span>'; // في حال كانت القيمة غير متوقعة
+                                }
+                            ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="4" class="text-center">لا توجد طلبات تقديم حتى الآن</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
                     </div>
                 </div>
                 <div class="footer">
