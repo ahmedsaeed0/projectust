@@ -1,8 +1,13 @@
 <?php
 include '../db.php';
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    die("User not logged in");
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+  $logged_in = $_SESSION['logged_in'];
+  $account_type = $_SESSION['account_type'];
+  $username = $_SESSION['username'];
+  $user_id = $_SESSION['user_id'];
+} else {
+  $logged_in = false;
 }
 $student_id = $_SESSION['user_id'];
 
@@ -117,9 +122,38 @@ $stmt->close();
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+      <a href="index.php" class="navbar-brand">
+        <h1>SAVIOUR</h1>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a href="../index.php" class="nav-link">Home</a></li>
+          <li class="nav-item "><a class="nav-link " href="../index.php?#job" >Jobs</a></li>
+          <li class="nav-item"><a href="../index.php?#about" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="../index.php?#contact" class="nav-link">Contact</a></li>
+          <?php if ($logged_in): ?>
+            <?php if ($account_type === 'student'): ?>
+              <li class="nav-item"><a href="students/student_profile.php" class="nav-link">Profile</a></li>
+            <?php elseif ($account_type === 'company'): ?>
+              <li class="nav-item"><a href="company/profail.php" class="nav-link">Control</a></li>
+            <?php elseif ($account_type === 'admin'): ?>
+              <li class="nav-item"><a href="../admins/admin_dashboard.php" class="nav-link">Admin Panel</a></li>
+            <?php endif; ?>
+            <li class="nav-item"><a href="logout.php" class="nav-link">Logout</a></li>
+          <?php else: ?>
+            <li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>
+          <?php endif; ?>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <div class="container-xxl bg-white p-0">
     <!-- Navbar -->
-    <!-- <?php include 'navbar.php'; ?> -->
 
     <!-- Ads Section -->
     <div class="container my-5">
