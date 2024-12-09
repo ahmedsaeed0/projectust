@@ -16,9 +16,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
 
-  <!-- Icon Font Stylesheet -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-
   <!-- Bootstrap Stylesheet -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -64,21 +61,49 @@
       background-color: #0056b3;
     }
 
-    .social-login a {
-      font-size: 1.2rem;
-      margin: 0 10px;
-      color: #6c757d;
-      text-decoration: none;
-      transition: color 0.2s;
+    /* Loader Styles */
+    .loader {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
     }
 
-    .social-login a:hover {
-      color: #007bff;
+    .loader div {
+      width: 10px;
+      height: 40px;
+      margin: 0 5px;
+      background: #007bff;
+      animation: loaderAnimation 1.2s infinite;
+    }
+
+    @keyframes loaderAnimation {
+      0%,
+      100% {
+        transform: scaleY(1);
+      }
+
+      50% {
+        transform: scaleY(2);
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- Loader -->
+  <div class="loader" id="loader">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
   <section class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
     <div class="container">
       <div class="row justify-content-center">
@@ -90,8 +115,8 @@
             <!-- Form Section -->
             <div class="col-md-6">
               <h1 class="text-center mb-4">Log In</h1>
-              <form action="../fun/login.php" method="POST">
-                <!-- Account Type Selection -->
+              <form action="../fun/login.php" method="POST" onsubmit="handleFormSubmit(event)">
+              <!-- Account Type Selection -->
                 <div class="mb-3">
                   <label for="accountType" class="form-label">Account Type</label>
                   <select id="accountType" name="accountType" class="form-select" required>
@@ -125,12 +150,6 @@
               <div class="text-center mt-3">
                 <a href="register.php" class="text-decoration-none">Create an account</a>
               </div>
-              <!-- <div class="text-center mt-4 social-login">
-                <p>Or login with</p>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-google"></i></a>
-              </div> -->
             </div>
           </div>
         </div>
@@ -138,6 +157,21 @@
     </div>
   </section>
 
+  <!-- JavaScript -->
+  <script>
+  function handleFormSubmit(event) {
+    event.preventDefault(); // منع الإرسال الفوري للفورم
+    const loader = document.getElementById('loader');
+    if (loader) {
+      loader.style.display = 'flex'; // عرض اللودر
+    }
+
+    // تأخير لمدة ثانيتين قبل إرسال الفورم
+    setTimeout(() => {
+      event.target.submit(); // إرسال الفورم بعد التأخير
+    }, 2000);
+  }
+</script>
   <!-- JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

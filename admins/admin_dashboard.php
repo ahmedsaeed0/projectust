@@ -5,14 +5,14 @@ session_start();
 if (isset($_SESSION['admin_id'])) {
     $username = $_SESSION['admin_username'];
 } else {
-    header("Location: ../admin.php");
+    header("Location: ../index.php");
     exit();
 }
 
 // تسجيل الخروج
 if (isset($_GET['logout'])) {
     session_destroy();
-    header("Location: ../admin.php");
+    header("Location: ../index.php");
     exit();
 }
 

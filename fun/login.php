@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: ../admins/admin_dashboard.php'); // توجيه الادمن إلى صفحة الادمن
         } else {
             $error = "Invalid account type.";
-            header('Location: ../login.php'); // توجيه المستخدم إلى صفحة تسجيل الدخول عند وجود خطأ
+            header('Location: ../pages/login.php'); // توجيه المستخدم إلى صفحة تسجيل الدخول عند وجود خطأ
         }
         exit();
         
@@ -87,7 +87,7 @@ showError:
     <div class="container error-container text-center">
         <h1 class="text-danger">Login Failed</h1>
         <p class="text-muted"><?php echo isset($error) ? $error : 'An unknown error occurred.'; ?></p>
-        <a href="login.php" class="btn btn-primary">Go Back to Login</a>
+        <a href="../pages/login.php" class="btn btn-primary">Go Back to Login</a>
     </div>
 </body>
 
