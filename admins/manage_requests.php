@@ -58,13 +58,14 @@ while ($row = $result->fetch_assoc()) {
     $categories[] = $row;
 }
 
-// جلب الوظائف والطلبات
+// جلب الوظائف
 $jobs_query = "SELECT jobs.*, companies.Name as company_name FROM jobs JOIN companies ON jobs.company_id = companies.id";
 $jobs_result = $conn->query($jobs_query);
 $jobs = [];
 while ($row = $jobs_result->fetch_assoc()) {
     $jobs[] = $row;
 }
+// جلب الطلبات
 $applications_query = "
     SELECT 
         job_applications.id AS application_id, 
@@ -86,6 +87,16 @@ $applications = [];
 while ($row = $applications_result->fetch_assoc()) {
     $applications[] = $row;
 }
+
+$ad_query = "SELECT ads.*,companies.Name AS z ,jobs.job_title AS x FROM ads 
+    JOIN companies ON ads.company_id = companies.id 
+    JOIN jobs ON ads.job_id = jobs.id ";
+$ad_result = $conn->query($ad_query);
+$ad = [];
+while ($row = $ad_result->fetch_assoc()) {
+    $ad[] = $row;
+}
+// print_r($ad);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -289,7 +300,7 @@ while ($row = $applications_result->fetch_assoc()) {
                         </table>
                         
                         <!-- قائمة طلبات التقديم -->
-                        <h3 class="text-center mb-4">طلبات التقديم</h3>
+    <h3 class="text-center mb-4">طلبات التقديم</h3>
     <table class="table table-striped table-hover table-bordered text-center">
         <thead class="table-primary">
             <tr>
@@ -327,6 +338,48 @@ while ($row = $applications_result->fetch_assoc()) {
             <?php else: ?>
                 <tr>
                     <td colspan="4" class="text-center">لا توجد طلبات تقديم حتى الآن</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+                    </div>
+                    <!-- جلب الاعانات -->
+                    <h3 class="text-center mb-4">اعلانات </h3>
+    <table class="table table-striped table-hover table-bordered text-center">
+        <thead class="table-primary">
+            <tr>
+                <!-- <th>#</th> -->
+                <th> رقم الاعلان</th>
+                <th>اسم  الشركة</th>
+                <th> اسم الوظيفة</th>
+                <!-- <th> اسم الوظيفة</th> -->
+                <th>  تاريخ الاعلان</th>
+                <th>  تاريخ بدا التقديم</th>
+                <th>  تاريخ انتهاء التقديم</th>
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($ad)): ?>
+                <?php foreach ($ad as $ad): ?>
+                    <tr>
+                        <td><?php echo htmlspecialchars($ad['id']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['z']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['x']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['ad_date']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['apply_start_date']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['apply_end_date']); ?></td>
+                        
+                        <td>
+                         
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="4" class="text-center">لا توجد  اعلانات حتى الآن</td>
                 </tr>
             <?php endif; ?>
         </tbody>
